@@ -7,7 +7,7 @@ from torchvision import models, transforms
 # -----------------------------
 # Config
 # -----------------------------
-DATASET_DIR = "G:\My Drive\GoldSafe\Dataset"  # Path to dataset folder
+DATASET_DIR = r"G:\\My Drive\\GoldSafe\\Dataset"  # Path to dataset folder
 EMBEDDINGS_FILE = "item_embeddings.npy"  # Where to save embeddings
 
 # Device
