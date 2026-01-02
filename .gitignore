@@ -1,0 +1,17 @@
+# Dataset 
+dataset/
+uploads/
+
+# Image files
+*.webp
+*.jpg
+*.jpeg
+*.png
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Virtual environment
+venv/
+.env
