@@ -1,6 +1,7 @@
 # Dataset 
 dataset/
 uploads/
+item_embeddings.npy
 
 # Image files
 *.webp
