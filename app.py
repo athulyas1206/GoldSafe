@@ -1,40 +1,43 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, send_file
+import os
+from ml.similarity import find_top_k_similar
 
 app = Flask(__name__)
 
-# Allowed image types
-ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "webp"}
+UPLOAD_FOLDER = "static/uploads"
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-# Helper function to check file type
-def allowed_file(filename):
-    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
-
-
-# Home page
 @app.route("/")
 def index():
     return render_template("index.html")
 
-
-# Image upload + category
 @app.route("/upload", methods=["POST"])
 def upload():
-    category = request.form.get("category")
     image = request.files.get("image")
 
-    if not category or not image:
-        return "Category or Image missing"
+    if not image:
+        return "No image uploaded"
 
-    if not allowed_file(image.filename):
-        return "File type not allowed. Please upload an image."
+    image_path = os.path.join(UPLOAD_FOLDER, image.filename)
+    image.save(image_path)
 
-    # Here: image is in memory, can be passed to ML model
-    # e.g., image.read() or PIL.Image.open(image)
-    
-    # For now, just return confirmation
-    return f"Image received for category: {category}"
+    results = find_top_k_similar(image_path)
 
+    return render_template(
+    "results.html",
+    query_image=image_path,   # KEEP FULL PATH
+    results=results
+)
 
-# Run server
+# 🔥 SERVE DATASET IMAGES FROM DRIVE
+@app.route("/dataset_image")
+def dataset_image():
+    path = request.args.get("path")
+
+    if not path or not os.path.exists(path):
+        return "Image not found", 404
+
+    return send_file(path)
+
 if __name__ == "__main__":
     app.run(debug=True)

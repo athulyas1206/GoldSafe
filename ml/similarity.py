@@ -73,28 +73,34 @@ def find_top_k_similar(query_image, k=TOP_K):
         sim = cosine_similarity(query_emb, emb)
         scores.append((item, float(sim)))
 
-    # Sort by similarity (highest first)
+    # Sort highest → lowest
     scores.sort(key=lambda x: x[1], reverse=True)
 
-    # Apply threshold + top-k
-    top_results = [
-        (item, score) for item, score in scores
-        if score >= SIMILARITY_THRESHOLD
-    ][:k]
+    results = []
 
-    return top_results
+    for item, score in scores[:k]:
+        category, item_id = item.split("/")
+
+        results.append({
+            "category": category,
+            "item_id": item_id,
+            "similarity": round(score * 100, 2)
+        })
+
+    return results
+
 
 # -----------------------------
 # Test
 # -----------------------------
 if __name__ == "__main__":
-    test_image = r"G:\My Drive\GoldSafe\Dataset\Bangle\Bangle_001\1.webp"
+    test_image = r"G:\My Drive\GoldSafe\Dataset\Necklace\necklace_001\1.webp"
 
     results = find_top_k_similar(test_image)
 
-    if not results:
-        print("No similar items found")
-    else:
-        print("Top similar items:")
-        for i, (item, score) in enumerate(results, start=1):
-            print(f"{i}. {item} → similarity: {score:.4f}")
+    print("\nTop similar items:\n")
+    for i, r in enumerate(results, start=1):
+        print(
+            f"{i}. {r['category']}/{r['item_id']} "
+            f"→ similarity: {r['similarity']}%"
+        )

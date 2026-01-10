@@ -1,34 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Jewellery Identification</title>
+    <title>GoldSafe</title>
 </head>
 <body>
-
-    <h2>Jewellery Image Upload</h2>
+    <h2>Upload Jewelry Image</h2>
 
     <form action="/upload" method="POST" enctype="multipart/form-data">
-
-        <label>Select Jewellery Category:</label><br><br>
-        <select name="category" required>
-            <option value="">-- Select Category --</option>
-            <option value="ring">Ring</option>
-            <option value="bangle">Bangle</option>
-            <option value="earring">Earring</option>
-            <option value="necklace">Necklace</option>
-        </select>
-
+        <input type="file" name="image" required>
         <br><br>
-
-        <label>Upload Jewellery Image:</label><br><br>
-        <input type="file" name="image" accept="image/*" required>
-
-        <br><br>
-
-        <button type="submit">Search</button>
-
+        <button type="submit">Find Similar</button>
     </form>
-
 </body>
 </html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Similarity Results</title>
+    <style>
+        .grid {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .card {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+            width: 200px;
+        }
+        img {
+            width: 100%;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Uploaded Image</h2>
+<img src="/{{ query_image }}" width="200">
+
+<h2>Top Similar Items</h2>
+
+<div class="grid">
+    {% for r in results %}
+    <div class="card">
+
+        <!-- 🔥 Dataset image served via Flask -->
+        <img src="/dataset_image?path=G:\\My Drive\\GoldSafe\\Dataset\\{{ r.category }}\\{{ r.item_id }}\\1.webp">
+
+        <p><b>{{ r.category }} / {{ r.item_id }}</b></p>
+        <p>Similarity: {{ r.similarity }}%</p>
+
+    </div>
+    {% endfor %}
+</div>
+
+<br>
+<a href="/">Try another image</a>
+
+</body>
+</html>
