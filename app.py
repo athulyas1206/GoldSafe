@@ -7,6 +7,8 @@ app = Flask(__name__)
 UPLOAD_FOLDER = "static/uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
+
+
 @app.route("/")
 def index():
     return render_template("index.html")
